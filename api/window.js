@@ -30,7 +30,16 @@ export default async function handler(req, res) {
     const x = bx + i * panelWidth;
     panelLines += `<line x1="${x}" y1="${by}" x2="${x}" y2="${by + sh}" stroke="#333" stroke-width="1"/>`;
   }
-
+if (["sliding", "openable", "casement"].includes(lowerType)) {
+  for (let i = 0; i < numPanels; i++) {
+    const cx = bx + i * panelWidth + panelWidth / 2;
+    if (lowerType === "sliding") {
+      openArrows += `<text x="${cx - 5}" y="${by + sh + 15}" font-size="12">⇆</text>`;
+    } else {
+      openArrows += `<text x="${cx - 8}" y="${by + sh + 15}" font-size="12">${openDirection === "left" ? "←" : openDirection === "right" ? "→" : openDirection === "top" ? "↑" : openDirection === "bottom" ? "↓" : "⇄"}</text>`;
+    }
+  }
+}
   if (["sliding", "openable", "casement"].includes(lowerType)) {
     for (let i = 0; i < numPanels; i++) {
       const cx = bx + i * panelWidth + panelWidth / 2;
