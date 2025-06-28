@@ -31,15 +31,25 @@ export default async function handler(req, res) {
     panelLines += `<line x1="${x}" y1="${by}" x2="${x}" y2="${by + sh}" stroke="#333" stroke-width="1"/>`;
   }
   if (["sliding", "openable", "casement"].includes(lowerType)) {
-    for (let i = 0; i < numPanels; i++) {
-      const cx = bx + i * panelWidth + panelWidth / 2;
-      if (lowerType === "sliding") {
-        openArrows += `<text x="${cx - 5}" y="${by + sh + 15}" font-size="12">⇆</text>`;
-      } else {
-        openArrows += `<text x="${cx - 8}" y="${by + sh + 15}" font-size="12">${openDirection === "left" ? "←" : openDirection === "right" ? "→" : openDirection === "top" ? "↑" : openDirection === "bottom" ? "↓" : "⇄"}</text>`;
-      }
+  for (let i = 0; i < numPanels; i++) {
+    const cx = bx + i * panelWidth + panelWidth / 2;
+    let arrowChar = "⇄"; // default
+
+    if (lowerType === "sliding") {
+      arrowChar = "⇆";
+    } else if (openDirection === "left") {
+      arrowChar = "←";
+    } else if (openDirection === "right") {
+      arrowChar = "→";
+    } else if (openDirection === "top") {
+      arrowChar = "↑";
+    } else if (openDirection === "bottom") {
+      arrowChar = "↓";
     }
+
+    openArrows += `<text x="${cx - 6}" y="${by + sh + 20}" font-size="16" font-family="sans-serif">${arrowChar}</text>`;
   }
+}
 
   if (lowerType === "tiltturn") {
     openArrows += `<text x="${bx + sw/2 - 10}" y="${by + sh/2}" font-size="14">⤡</text>`;
